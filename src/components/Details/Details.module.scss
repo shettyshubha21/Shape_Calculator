@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+.Details {
+    width: 40%;
+    margin-left: 5%;
+    margin-top: 3%;
+}
+
+.Details1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    .greet {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: normal;
+        font-size:x-large;
+        text-align: start;
+    }
+    .imp {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        font-size: 18px;
+        text-align: start;
+    }
+    .description {
+        text-align: start;
+    }
+}
+

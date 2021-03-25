@@ -1,0 +1,127 @@
+import React, { useState } from 'react';
+
+import styles from './Step1.module.scss';
+import data from '../../data';
+
+const Step1 = () => {
+    const [shapes, setShapes] = useState(data);
+    const [steps, setSteps] = useState(1);
+    const [selectedShape, setSelectedShape] = useState();
+    const [value1, setValue1] = useState(0);
+    const [value2, setValue2] = useState(0);
+
+    const reset = () => {
+        setValue1(0);
+        setValue2(0);
+        setSelectedShape(undefined);
+    }
+
+return (
+<div className={styles.Step1 }>
+{steps === 1 && <div>
+  <h1 className={styles.heading}>Step 1 : Select your shape</h1>
+  <div className={styles.body}>
+    <p className={styles.description}>Please select the shape that you would like to calculate the area of and press the button "Go to step 2"</p>
+    {shapes.map((items:any) => {
+        const { id, shape } = items;
+        return (
+          <div key={id} className={styles.container}>
+            <label>
+            <input type="radio" name="radio" onClick={() => {setSelectedShape(shape)}}/>
+                {shape}
+            </label>
+          </div>
+        );
+    })}
+    <div className={styles.button}>
+        <button className={styles.btn} onClick={() => selectedShape? setSteps(2) : setSteps(1)}>Go to step 2</button>
+        <p className={styles.or}>or</p>
+        <p className={styles.cancel} onClick={() => {setSteps(1);}}>Cancel</p>
+    </div>
+  </div>
+  </div>
+}
+{
+  steps === 2 && <div>
+        <h1 className={styles.heading}>Step 2 : Insert your values</h1>
+        <div className={styles.body}>
+            <p className={styles.description}>You have selected a <span className={styles.bold}>{selectedShape}</span>, please input the required variables.</p> 
+            {selectedShape === "Rectangle" &&
+                <div className={styles.field}>
+                    <div>
+                        <label>Length: </label>
+                        <input type="number" id="fname" name="fname" placeholder="text" value={value1} onChange={(e:any) => setValue1(e.target.value)}/>
+                    </div>
+                    <div>
+                        <label>Width: </label>
+                        <input type="number" id="fname" name="fname" placeholder="text" value={value2} onChange={(e:any) => setValue2(e.target.value)}/>
+                    </div>
+                </div>
+            }
+            {
+                selectedShape === "Circle" && 
+                <div className={styles.field}>
+                    <div>
+                        <label>Diameter: </label>
+                        <input type="number" id="fname" name="fname" placeholder="text" value={value1} onChange={(e:any) => setValue1(e.target.value)}/>
+                    </div>
+                </div>
+            }
+            {
+                selectedShape === "Square" && 
+                <div className={styles.field}>
+                    <div>
+                        <label>Side: </label>
+                        <input type="number" id="fname" name="fname" placeholder="text" value={value1} onChange={(e:any) => setValue1(e.target.value)}/>
+                    </div>
+                </div>
+            }
+             {selectedShape === "Ellipse" &&
+                <div className={styles.field}>
+                    <div>
+                        <label>a Axis: </label>
+                        <input type="number" id="fname" name="fname" placeholder="text" value={value1} onChange={(e:any) => setValue1(e.target.value)}/>
+                    </div>
+                    <div>
+                        <label>b Axis: </label>
+                        <input type="number" id="fname" name="fname" placeholder="text" value={value2} onChange={(e:any) => setValue2(e.target.value)}/>
+                    </div>
+                </div>
+            }
+            <div className={styles.button}>
+                <button className={styles.btn} onClick={() => value1 || value2? setSteps(3) : setSteps(2)}>Go to step 3</button>
+                <p className={styles.or}>or</p>
+                <p className={styles.cancel} onClick={reset}>Cancel</p>
+            </div>
+        </div>
+    </div>
+}
+
+{
+    steps === 3 && <div>
+        <h1 className={styles.heading}>Step 3 : Your results</h1>
+        <div className={styles.body}>
+            {selectedShape === "Rectangle" && <p className={styles.description}>You have the area of a <span className={styles.bold}>{selectedShape}</span> with a length of {value1} and width of {value2}. Below is your result:</p>}
+            {selectedShape === "Circle" && <p className={styles.description}>You have calculated the area of a <span className={styles.bold}>{selectedShape}</span> with a diameter of {value1}. Below is your result:</p>}
+            {selectedShape === "Square" && <p className={styles.description}>You have calculated the area of a <span className={styles.bold}>{selectedShape}</span> with a side of {value1}. Below is your result:</p>}
+            {selectedShape === "Ellipse" && <p className={styles.description}>You have calculated the area of a <span className={styles.bold}>{selectedShape}</span> with a a Axis of {value1} and b Axis of {value2}. Below is your result:</p>}
+            <div className={styles.score}>
+                {selectedShape === "Rectangle" && <h1>The Area is {(value1*value2)}</h1>}   
+                {selectedShape === "Circle" && <h1>The Area is {3.14 * value1}</h1>}
+                {selectedShape === "Square" && <h1>The Area is {value1 * value1}</h1>}
+                {selectedShape === "Ellipse" && <h1>The Area is {3.14 * value1 * value2}</h1>}
+            </div>
+            <div className={styles.startOver}>
+                <button className={styles.startOverBtn} onClick={() => {setSteps(1); reset()}}>Start Over</button>
+            </div>
+        </div>
+    </div>
+}
+</div>
+);
+};
+
+
+
+
+export default Step1;

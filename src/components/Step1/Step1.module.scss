@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+.Step1 {
+    position: relative;
+    border: 2px solid grey;
+    border-radius: 8px;
+    width: 28%;
+    margin-top: 3%;
+    margin-left: 5%;
+}
+
+.heading {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: normal;
+    font-size:x-large;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    margin-left: 7%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    .description {
+        text-align:start;
+        font-size: 17px;
+    }
+    .container {
+        color: rgb(104, 98, 98);
+        font-size: 15px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    .button {
+        display: flex;
+        position: absolute;
+        bottom: 0;
+     .btn {
+        outline: none;
+        width: 120%;
+        height: 40px;
+        border-radius: 5px;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .or {
+        margin-left: 10px;
+        margin-top: 6%;
+    }
+    .cancel {
+        margin-top: 6%;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    }
+    .bold {
+        font-weight: bold;
+    }
+    .field {
+        display: flex;
+        margin-top: 5%;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        label {
+            font-weight: 500;
+            font-size: large;
+        }
+        input {
+            border: 2px solid gray;
+            height: 25px;
+            width: 60px;
+            margin-top: 5%;
+        }
+    }
+    .score {
+        width: 100%;
+        h1 {
+            font-size: 25px;
+            font-weight: normal;
+        }
+    }
+    .startOver {
+        display: flex;
+        margin-top: 30%;
+        .startOverBtn {  
+            outline: none;
+            width: 120%;
+            height: 40px;
+            border-radius: 5px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    }
+}
+
