@@ -6,15 +6,17 @@ import data from '../../data';
 const Step1 = () => {
     const [shapes, setShapes] = useState(data);
     const [steps, setSteps] = useState(1);
-    const [selectedShape, setSelectedShape] = useState();
+    const [selectedShape, setSelectedShape] = useState('');
     const [value1, setValue1] = useState(0);
     const [value2, setValue2] = useState(0);
+    const [demo, setDemo] = useState(false);
 
     const reset = () => {
         setValue1(0);
         setValue2(0);
     }
 
+    console.log(selectedShape)
 return (
 <div className={styles.Step1 }>
 {steps === 1 && <div>
@@ -26,7 +28,7 @@ return (
         return (
           <div key={id} className={styles.container}>
             <label>
-            <input type="radio" name="radio" onClick={() => {setSelectedShape(shape)}}/>
+            <input type="radio" name="radio"  value={shape} checked={selectedShape === shape? true : false} onClick={() => {setSelectedShape(shape)}}/>
                 {shape}
             </label>
           </div>
@@ -35,7 +37,7 @@ return (
     <div className={styles.button}>
         <button className={styles.btn} onClick={() => selectedShape? setSteps(2) : setSteps(1)}>Go to step 2</button>
         <p className={styles.or}>or</p>
-        <p className={styles.cancel} onClick={() => {setSteps(1);}}>Cancel</p>
+        <p className={styles.cancel} onClick={() => {setSteps(1); setSelectedShape('');  }}>Cancel</p>
     </div>
   </div>
   </div>
@@ -111,7 +113,7 @@ return (
                 {selectedShape === "Ellipse" && <h1>The Area is {3.14 * value1 * value2}</h1>}
             </div>
             <div className={styles.startOver}>
-                <button className={styles.startOverBtn} onClick={() => {setSteps(1); reset()}}>Start Over</button>
+                <button className={styles.startOverBtn} onClick={() => {setSteps(1); reset(); setSelectedShape('')}}>Start Over</button>
             </div>
         </div>
     </div>
