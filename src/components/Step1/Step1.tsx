@@ -13,7 +13,6 @@ const Step1 = () => {
     const reset = () => {
         setValue1(0);
         setValue2(0);
-        setSelectedShape(undefined);
     }
 
 return (
@@ -91,7 +90,7 @@ return (
             <div className={styles.button}>
                 <button className={styles.btn} onClick={() => value1 || value2? setSteps(3) : setSteps(2)}>Go to step 3</button>
                 <p className={styles.or}>or</p>
-                <p className={styles.cancel} onClick={reset}>Cancel</p>
+                <p className={styles.cancel} onClick={() => reset()}>Cancel</p>
             </div>
         </div>
     </div>
