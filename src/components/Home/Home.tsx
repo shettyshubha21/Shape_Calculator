@@ -7,19 +7,16 @@ import Steps from '../Steps';
 import styles from './Home.module.scss';
 
 const Home = () => {
-return (
-<div className={styles.Home }>
-   <Header/>
-   <div className={styles.body}>
-        <Details/>
-        <Steps/>
-        <Add/>
-   </div>
-</div>
-);
+    return (
+        <div className={styles.Home}>
+            <Header />
+            <div className={styles.body}>
+                <Details />
+                <Steps />
+                <Add />
+            </div>
+        </div>
+    );
 };
-
-
-
 
 export default Home;
