@@ -208,13 +208,16 @@ const Steps = () => {
                 <h1>The Area is {(value1 * value2).toFixed(3)}</h1>
               )}
               {selectedShape === 'Circle' && (
-                <h1>The Area is {(3.14 * value1).toFixed(3)}</h1>
+                <h1>
+                  The Area is
+                  {(Math.PI * (value1 / 2) * (value1 / 2)).toFixed(3)}
+                </h1>
               )}
               {selectedShape === 'Square' && (
                 <h1>The Area is {(value1 * value1).toFixed(3)}</h1>
               )}
               {selectedShape === 'Ellipse' && (
-                <h1>The Area is {(3.14 * value1 * value2).toFixed(3)}</h1>
+                <h1>The Area is {(Math.PI * value1 * value2).toFixed(3)}</h1>
               )}
             </div>
             <div className={styles.startOver}>
