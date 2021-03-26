@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
 
-import styles from './Step1.module.scss';
+import styles from './Steps.module.scss';
 import data from '../../data';
+import {ShapesInterface} from '../../interface';
+import Button from '../Button';
 
-const Step1 = () => {
-    const [shapes, setShapes] = useState(data);
-    const [steps, setSteps] = useState(1);
-    const [selectedShape, setSelectedShape] = useState('');
-    const [value1, setValue1] = useState(0);
-    const [value2, setValue2] = useState(0);
-    const [demo, setDemo] = useState(false);
+const Steps = () => {
+    const [shapes, setShapes] = useState<ShapesInterface[]>(data);
+    const [steps, setSteps] = useState<number>(1);
+    const [selectedShape, setSelectedShape] = useState<string>('');
+    const [value1, setValue1] = useState<number>(0);
+    const [value2, setValue2] = useState<number>(0);
 
     const reset = () => {
         setValue1(0);
         setValue2(0);
     }
 
-    console.log(selectedShape)
 return (
-<div className={styles.Step1 }>
+<div className={styles.Step1}>
 {steps === 1 && <div>
   <h1 className={styles.heading}>Step 1 : Select your shape</h1>
   <div className={styles.body}>
     <p className={styles.description}>Please select the shape that you would like to calculate the area of and press the button "Go to step 2"</p>
-    {shapes.map((items:any) => {
+    {shapes.map((items) => {
         const { id, shape } = items;
         return (
           <div key={id} className={styles.container}>
@@ -35,7 +35,7 @@ return (
         );
     })}
     <div className={styles.button}>
-        <button className={styles.btn} onClick={() => selectedShape? setSteps(2) : setSteps(1)}>Go to step 2</button>
+        <Button type="button" title="Go to step 2" onClick={() => selectedShape? setSteps(2) : setSteps(1)}/>
         <p className={styles.or}>or</p>
         <p className={styles.cancel} onClick={() => {setSteps(1); setSelectedShape('');  }}>Cancel</p>
     </div>
@@ -90,7 +90,7 @@ return (
                 </div>
             }
             <div className={styles.button}>
-                <button className={styles.btn} onClick={() => value1 || value2? setSteps(3) : setSteps(2)}>Go to step 3</button>
+                <Button type="button" title="Go to step 3" onClick={() => value1 || value2? setSteps(3) : setSteps(2)}/>
                 <p className={styles.or}>or</p>
                 <p className={styles.cancel} onClick={() => reset()}>Cancel</p>
             </div>
@@ -113,7 +113,7 @@ return (
                 {selectedShape === "Ellipse" && <h1>The Area is {3.14 * value1 * value2}</h1>}
             </div>
             <div className={styles.startOver}>
-                <button className={styles.startOverBtn} onClick={() => {setSteps(1); reset(); setSelectedShape('')}}>Start Over</button>
+                <Button type="button" title="Start Over" onClick={() => {setSteps(1); reset(); setSelectedShape('')}}/>
             </div>
         </div>
     </div>
@@ -125,4 +125,4 @@ return (
 
 
 
-export default Step1;
+export default Steps;

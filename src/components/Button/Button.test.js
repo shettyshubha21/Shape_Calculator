@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import Step1 from './Step1'
+import Button from './Button'
 
-test('renders Step1', () => {
+test('renders Button', () => {
 render(
-<Step1 />);
+<Button />);
 });

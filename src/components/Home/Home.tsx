@@ -2,7 +2,7 @@ import React from 'react';
 import Add from '../Add';
 import Details from '../Details';
 import Header from '../Header';
-import Step1 from '../Step1';
+import Steps from '../Steps';
 
 import styles from './Home.module.scss';
 
@@ -12,7 +12,7 @@ return (
    <Header/>
    <div className={styles.body}>
         <Details/>
-        <Step1/>
+        <Steps/>
         <Add/>
    </div>
 </div>
