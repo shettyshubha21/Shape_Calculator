@@ -4,6 +4,9 @@ import styles from './Steps.module.scss';
 import data from '../../data';
 import { ShapesInterface } from '../../interface';
 import Button from '../Button';
+import { DifferentSteps } from '../../enum';
+import { Shapes } from '../../enum';
+import Input from '../Input';
 
 const Steps = () => {
   const [shapes, setShapes] = useState<ShapesInterface[]>(data);
@@ -17,9 +20,19 @@ const Steps = () => {
     setValue2(0);
   };
 
+  const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue1 = Number(e.target.value);
+    setValue1(inputValue1);
+  };
+
+  const handleChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue2 = Number(e.target.value);
+    setValue2(inputValue2);
+  };
+
   return (
     <div className={styles.Step1}>
-      {steps === 1 && (
+      {steps === DifferentSteps.Step1 && (
         <div>
           <h1 className={styles.heading}>Step 1 : Select your shape</h1>
           <div className={styles.body}>
@@ -65,7 +78,7 @@ const Steps = () => {
           </div>
         </div>
       )}
-      {steps === 2 && (
+      {steps === DifferentSteps.Step2 && (
         <div>
           <h1 className={styles.heading}>Step 2 : Insert your values</h1>
           <div className={styles.body}>
@@ -74,85 +87,87 @@ const Steps = () => {
               <span className={styles.bold}>{selectedShape}</span>, please input
               the required variables.
             </p>
-            {selectedShape === 'Rectangle' && (
+            {selectedShape === Shapes.RECTANGLE && (
               <div className={styles.field}>
                 <div>
                   <label>Length: </label>
-                  <input
+                  <Input 
                     type="number"
                     id="fname"
                     name="fname"
                     placeholder="text"
-                    value={value1}
-                    onChange={(e: any) => setValue1(e.target.value)}
-                  />
+                    onChange={handleChange1}>
+                  </Input>
                 </div>
+
                 <div>
                   <label>Width: </label>
-                  <input
+                  <Input
                     type="number"
                     id="fname"
                     name="fname"
                     placeholder="text"
-                    value={value2}
-                    onChange={(e: any) => setValue2(e.target.value)}
-                  />
+                    onChange={handleChange2}>
+                  </Input>
                 </div>
               </div>
             )}
-            {selectedShape === 'Circle' && (
+            {selectedShape === Shapes.CIRCLE && (
               <div className={styles.field}>
                 <div>
                   <label>Diameter: </label>
-                  <input
+                  <Input
                     type="number"
                     id="fname"
                     name="fname"
                     placeholder="text"
                     value={value1}
-                    onChange={(e: any) => setValue1(e.target.value)}
-                  />
+                    onChange={handleChange1}
+                  >
+                  </Input>
                 </div>
               </div>
             )}
-            {selectedShape === 'Square' && (
+            {selectedShape === Shapes.SQUARE && (
               <div className={styles.field}>
                 <div>
                   <label>Side: </label>
-                  <input
-                    type="number"
-                    id="fname"
-                    name="fname"
-                    placeholder="text"
-                    value={value1}
-                    onChange={(e: any) => setValue1(e.target.value)}
-                  />
+                  <Input
+                     type="number"
+                     id="fname"
+                     name="fname"
+                     placeholder="text"
+                     value={value1}
+                     onChange={handleChange1}
+                  >
+                  </Input>
                 </div>
               </div>
             )}
-            {selectedShape === 'Ellipse' && (
+            {selectedShape === Shapes.ELLIPSE && (
               <div className={styles.field}>
                 <div>
                   <label>a Axis: </label>
-                  <input
+                  <Input
                     type="number"
                     id="fname"
                     name="fname"
                     placeholder="text"
                     value={value1}
-                    onChange={(e: any) => setValue1(e.target.value)}
-                  />
+                    onChange={handleChange1}
+                  >
+                  </Input>
                 </div>
                 <div>
                   <label>b Axis: </label>
-                  <input
-                    type="number"
-                    id="fname"
-                    name="fname"
-                    placeholder="text"
-                    value={value2}
-                    onChange={(e: any) => setValue2(e.target.value)}
-                  />
+                 <Input
+                  type="number"
+                  id="fname"
+                  name="fname"
+                  placeholder="text"
+                  value={value2}
+                  onChange={handleChange2}>
+                 </Input>
                 </div>
               </div>
             )}
@@ -163,7 +178,13 @@ const Steps = () => {
                 onClick={() => (value1 || value2 ? setSteps(3) : setSteps(2))}
               />
               <p className={styles.or}>or</p>
-              <p className={styles.cancel} onClick={() => reset()}>
+              <p
+                className={styles.cancel}
+                onClick={() => {
+                  setSteps(1);
+                  setSelectedShape('');
+                  reset();
+                }}>
                 Cancel
               </p>
             </div>
@@ -171,32 +192,32 @@ const Steps = () => {
         </div>
       )}
 
-      {steps === 3 && (
+      {steps === DifferentSteps.Step3 && (
         <div>
           <h1 className={styles.heading}>Step 3 : Your results</h1>
           <div className={styles.body}>
-            {selectedShape === 'Rectangle' && (
+            {selectedShape === Shapes.RECTANGLE && (
               <p className={styles.description}>
                 You have the area of a{' '}
                 <span className={styles.bold}>{selectedShape}</span> with a
                 length of {value1} and width of {value2}. Below is your result:
               </p>
             )}
-            {selectedShape === 'Circle' && (
+            {selectedShape === Shapes.CIRCLE && (
               <p className={styles.description}>
                 You have calculated the area of a{' '}
                 <span className={styles.bold}>{selectedShape}</span> with a
                 diameter of {value1}. Below is your result:
               </p>
             )}
-            {selectedShape === 'Square' && (
+            {selectedShape === Shapes.SQUARE && (
               <p className={styles.description}>
                 You have calculated the area of a{' '}
                 <span className={styles.bold}>{selectedShape}</span> with a side
                 of {value1}. Below is your result:
               </p>
             )}
-            {selectedShape === 'Ellipse' && (
+            {selectedShape === Shapes.ELLIPSE && (
               <p className={styles.description}>
                 You have calculated the area of a{' '}
                 <span className={styles.bold}>{selectedShape}</span> with a a
@@ -204,19 +225,19 @@ const Steps = () => {
               </p>
             )}
             <div className={styles.score}>
-              {selectedShape === 'Rectangle' && (
+              {selectedShape === Shapes.RECTANGLE && (
                 <h1>The Area is {(value1 * value2).toFixed(3)}</h1>
               )}
-              {selectedShape === 'Circle' && (
+              {selectedShape === Shapes.CIRCLE && (
                 <h1>
-                  The Area is
+                  The Area is {''}
                   {(Math.PI * (value1 / 2) * (value1 / 2)).toFixed(3)}
                 </h1>
               )}
-              {selectedShape === 'Square' && (
+              {selectedShape === Shapes.SQUARE && (
                 <h1>The Area is {(value1 * value1).toFixed(3)}</h1>
               )}
-              {selectedShape === 'Ellipse' && (
+              {selectedShape === Shapes.ELLIPSE && (
                 <h1>The Area is {(Math.PI * value1 * value2).toFixed(3)}</h1>
               )}
             </div>
