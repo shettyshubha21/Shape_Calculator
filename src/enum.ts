@@ -5,8 +5,8 @@ export enum DifferentSteps {
 }
 
 export enum Shapes {
-  RECTANGLE = 'Rectangle',
-  SQUARE = 'Square',
-  CIRCLE = 'Circle',
-  ELLIPSE = 'Ellipse',
+  RECTANGLE = 'rectangle',
+  SQUARE = 'square',
+  CIRCLE = 'circle',
+  ELLIPSE = 'ellipse',
 }

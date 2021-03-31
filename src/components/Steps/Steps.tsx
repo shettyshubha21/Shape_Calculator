@@ -2,32 +2,108 @@ import React, { useState } from 'react';
 
 import styles from './Steps.module.scss';
 import data from '../../data';
-import { ShapesInterface } from '../../interface';
+import { ShapesInterface, initialValueType } from '../../interface';
 import Button from '../Button';
-import { DifferentSteps } from '../../enum';
-import { Shapes } from '../../enum';
+import { DifferentSteps, Shapes } from '../../enum';
 import Input from '../Input';
 
 const Steps = () => {
+  const initialValue = {
+    shape: Shapes.RECTANGLE,
+    inputs: {
+      rectangle: { length: 0, breadth: 0 },
+      circle: { diameter: 0 },
+      square: { length: 0 },
+      ellipse: { axisA: 0, axisB: 0 },
+    },
+  };
+
   const [shapes, setShapes] = useState<ShapesInterface[]>(data);
   const [steps, setSteps] = useState<number>(1);
-  const [selectedShape, setSelectedShape] = useState<string>('');
-  const [value1, setValue1] = useState<number>(0);
-  const [value2, setValue2] = useState<number>(0);
+  const [selectedShape, setSelectedShape] = useState<initialValueType>(
+    initialValue
+  );
+ 
+  function Type(shape: string): Shapes {
+    if (shape === Shapes.CIRCLE) return Shapes.CIRCLE;
+    if (shape === Shapes.SQUARE) return Shapes.SQUARE;
+    if (shape === Shapes.ELLIPSE) return Shapes.ELLIPSE;
+    return Shapes.RECTANGLE;
+  }
 
-  const reset = () => {
-    setValue1(0);
-    setValue2(0);
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const userInput: string = e.target.value;
+    setSelectedShape({ ...selectedShape, shape: Type(userInput) });
   };
 
-  const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue1 = Number(e.target.value);
-    setValue1(inputValue1);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    const shape = selectedShape.shape;
+    const inputs = selectedShape.inputs;
+    setSelectedShape({
+      ...selectedShape,
+      inputs: {
+        ...inputs,
+        [shape]: { ...inputs[shape], [e.target.name]: inputValue },
+      },
+    });
   };
 
-  const handleChange2 = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue2 = Number(e.target.value);
-    setValue2(inputValue2);
+  const startOver = () => {
+    setSteps(1);
+    setSelectedShape(initialValue);
+  };
+
+  const result = () => {
+    switch (selectedShape.shape) {
+      case Shapes.RECTANGLE:
+        return (
+          selectedShape.inputs['rectangle'].length *
+          selectedShape.inputs.rectangle.breadth
+        ).toFixed(3);
+      case Shapes.CIRCLE:
+        return (
+          Math.PI *
+          (selectedShape.inputs['circle'].diameter / 2) *
+          (selectedShape.inputs['circle'].diameter / 2)
+        ).toFixed(3);
+      case Shapes.SQUARE:
+        return (
+          selectedShape.inputs['square'].length *
+          selectedShape.inputs['square'].length
+        ).toFixed(3);
+      case Shapes.ELLIPSE:
+        return (
+          Math.PI *
+          selectedShape.inputs['ellipse'].axisA *
+          selectedShape.inputs['ellipse'].axisB
+        ).toFixed(3);
+      default:
+        return 0;
+    }
+  };
+
+  const displayMessage = () => {
+    const para = selectedShape.inputs;
+    const params = Object.entries(para);
+    const selected = params.find((ele) => ele[0] === selectedShape.shape);
+    console.log(selected, 'sele');
+    if (selected) {
+      const val = Object.keys(selected[1]);
+      const val1 = selected[1][val[0]];
+      const val2 = selected[1][val[1]];
+      const paramsLength = Object.keys(selected[1]).length;
+
+      return (
+        <div>
+          You have calculated the area of a <span>{selectedShape.shape}</span>{' '}
+          with a{' '}
+          {paramsLength > 1
+            ? `${val[0]} of ${val1} and ${val[1]} of ${val2}`
+            : `${val[0]} of ${val1}`}
+        </div>
+      );
+    }
   };
 
   return (
@@ -42,17 +118,16 @@ const Steps = () => {
             </p>
             {shapes.map((items) => {
               const { id, shape } = items;
+              console.log(shape);
               return (
                 <div key={id} className={styles.container}>
                   <label>
                     <input
                       type="radio"
-                      name="radio"
+                      name="Radio"
                       value={shape}
-                      checked={selectedShape === shape ? true : false}
-                      onChange={() => {
-                        setSelectedShape(shape);
-                      }}
+                      checked={selectedShape.shape === shape}
+                      onChange={(e) => handleRadioChange(e)}
                     />
                     {shape}
                   </label>
@@ -63,14 +138,16 @@ const Steps = () => {
               <Button
                 type="button"
                 title="Go to step 2"
-                onClick={() => (selectedShape ? setSteps(2) : setSteps(1))}
+                onClick={() =>
+                  selectedShape.shape ? setSteps(2) : setSteps(1)
+                }
               />
               <p className={styles.or}>or</p>
               <p
                 className={styles.cancel}
                 onClick={() => {
                   setSteps(1);
-                  setSelectedShape('');
+                  setSelectedShape(initialValue);
                 }}>
                 Cancel
               </p>
@@ -84,20 +161,20 @@ const Steps = () => {
           <div className={styles.body}>
             <p className={styles.description}>
               You have selected a{' '}
-              <span className={styles.bold}>{selectedShape}</span>, please input
-              the required variables.
+              <span className={styles.bold}>{selectedShape.shape}</span>, please
+              input the required variables.
             </p>
-            {selectedShape === Shapes.RECTANGLE && (
+            {selectedShape.shape === Shapes.RECTANGLE && (
               <div className={styles.field}>
                 <div>
                   <label>Length: </label>
-                  <Input 
+                  <Input
                     type="number"
                     id="fname"
-                    name="fname"
+                    name="length"
                     placeholder="text"
-                    onChange={handleChange1}>
-                  </Input>
+                    value={selectedShape.inputs['rectangle'].length}
+                    onChange={handleChange}></Input>
                 </div>
 
                 <div>
@@ -105,69 +182,62 @@ const Steps = () => {
                   <Input
                     type="number"
                     id="fname"
-                    name="fname"
+                    name="breadth"
                     placeholder="text"
-                    onChange={handleChange2}>
-                  </Input>
+                    value={selectedShape.inputs['rectangle'].breadth}
+                    onChange={handleChange}></Input>
                 </div>
               </div>
             )}
-            {selectedShape === Shapes.CIRCLE && (
+            {selectedShape.shape === Shapes.CIRCLE && (
               <div className={styles.field}>
                 <div>
                   <label>Diameter: </label>
                   <Input
                     type="number"
                     id="fname"
-                    name="fname"
+                    name="diameter"
                     placeholder="text"
-                    value={value1}
-                    onChange={handleChange1}
-                  >
-                  </Input>
+                    value={selectedShape.inputs['circle'].diameter}
+                    onChange={handleChange}></Input>
                 </div>
               </div>
             )}
-            {selectedShape === Shapes.SQUARE && (
+            {selectedShape.shape === Shapes.SQUARE && (
               <div className={styles.field}>
                 <div>
                   <label>Side: </label>
                   <Input
-                     type="number"
-                     id="fname"
-                     name="fname"
-                     placeholder="text"
-                     value={value1}
-                     onChange={handleChange1}
-                  >
-                  </Input>
+                    type="number"
+                    id="fname"
+                    name="length"
+                    placeholder="text"
+                    value={selectedShape.inputs['square'].length}
+                    onChange={handleChange}></Input>
                 </div>
               </div>
             )}
-            {selectedShape === Shapes.ELLIPSE && (
+            {selectedShape.shape === Shapes.ELLIPSE && (
               <div className={styles.field}>
                 <div>
                   <label>a Axis: </label>
                   <Input
                     type="number"
                     id="fname"
-                    name="fname"
+                    name="axisA"
                     placeholder="text"
-                    value={value1}
-                    onChange={handleChange1}
-                  >
-                  </Input>
+                    value={selectedShape.inputs['ellipse'].axisA}
+                    onChange={handleChange}></Input>
                 </div>
                 <div>
                   <label>b Axis: </label>
-                 <Input
-                  type="number"
-                  id="fname"
-                  name="fname"
-                  placeholder="text"
-                  value={value2}
-                  onChange={handleChange2}>
-                 </Input>
+                  <Input
+                    type="number"
+                    id="fname"
+                    name="axisB"
+                    placeholder="text"
+                    value={selectedShape.inputs['ellipse'].axisB}
+                    onChange={handleChange}></Input>
                 </div>
               </div>
             )}
@@ -175,16 +245,10 @@ const Steps = () => {
               <Button
                 type="button"
                 title="Go to step 3"
-                onClick={() => (value1 || value2 ? setSteps(3) : setSteps(2))}
+                onClick={() => setSteps(3)}
               />
               <p className={styles.or}>or</p>
-              <p
-                className={styles.cancel}
-                onClick={() => {
-                  setSteps(1);
-                  setSelectedShape('');
-                  reset();
-                }}>
+              <p className={styles.cancel} onClick={startOver}>
                 Cancel
               </p>
             </div>
@@ -196,61 +260,12 @@ const Steps = () => {
         <div>
           <h1 className={styles.heading}>Step 3 : Your results</h1>
           <div className={styles.body}>
-            {selectedShape === Shapes.RECTANGLE && (
-              <p className={styles.description}>
-                You have the area of a{' '}
-                <span className={styles.bold}>{selectedShape}</span> with a
-                length of {value1} and width of {value2}. Below is your result:
-              </p>
-            )}
-            {selectedShape === Shapes.CIRCLE && (
-              <p className={styles.description}>
-                You have calculated the area of a{' '}
-                <span className={styles.bold}>{selectedShape}</span> with a
-                diameter of {value1}. Below is your result:
-              </p>
-            )}
-            {selectedShape === Shapes.SQUARE && (
-              <p className={styles.description}>
-                You have calculated the area of a{' '}
-                <span className={styles.bold}>{selectedShape}</span> with a side
-                of {value1}. Below is your result:
-              </p>
-            )}
-            {selectedShape === Shapes.ELLIPSE && (
-              <p className={styles.description}>
-                You have calculated the area of a{' '}
-                <span className={styles.bold}>{selectedShape}</span> with a a
-                Axis of {value1} and b Axis of {value2}. Below is your result:
-              </p>
-            )}
+            {displayMessage()}
             <div className={styles.score}>
-              {selectedShape === Shapes.RECTANGLE && (
-                <h1>The Area is {(value1 * value2).toFixed(3)}</h1>
-              )}
-              {selectedShape === Shapes.CIRCLE && (
-                <h1>
-                  The Area is {''}
-                  {(Math.PI * (value1 / 2) * (value1 / 2)).toFixed(3)}
-                </h1>
-              )}
-              {selectedShape === Shapes.SQUARE && (
-                <h1>The Area is {(value1 * value1).toFixed(3)}</h1>
-              )}
-              {selectedShape === Shapes.ELLIPSE && (
-                <h1>The Area is {(Math.PI * value1 * value2).toFixed(3)}</h1>
-              )}
+              <h1>The Area is {result()}</h1>
             </div>
             <div className={styles.startOver}>
-              <Button
-                type="button"
-                title="Start Over"
-                onClick={() => {
-                  setSteps(1);
-                  reset();
-                  setSelectedShape('');
-                }}
-              />
+              <Button type="button" title="Start Over" onClick={startOver} />
             </div>
           </div>
         </div>
