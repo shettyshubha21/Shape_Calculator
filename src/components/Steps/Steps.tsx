@@ -100,7 +100,8 @@ const Steps = () => {
           with a{' '}
           {paramsLength > 1
             ? `${val[0]} of ${val1} and ${val[1]} of ${val2}`
-            : `${val[0]} of ${val1}`}
+            : `${val[0]} of ${val1}`}. {' '}
+          Below is your result.
         </div>
       );
     }

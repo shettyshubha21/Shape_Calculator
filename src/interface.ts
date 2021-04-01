@@ -49,28 +49,6 @@ export interface ellipseType {
   axisA: number;
   axisB: number;
 }
-
-/* const reactangleValue = { length: 0, breadth: 0 };
-type rectangleType = typeof reactangleValue;
-
-const circleValue = {
-  diameter: 0,
-};
-type circleType = typeof circleValue;
-
-const squareValue = {
-  length: 0,
-};
-type squareType = typeof squareValue;
-
-const ellipseValue = {
-  axisA: 0,
-  axisB: 0,
-};
-type ellipseType = typeof ellipseValue; */
-
-/* export type ShapesType = Shapes; */
-
 export interface inputsType {
   rectangle: rectangleType;
   circle: circleType;
