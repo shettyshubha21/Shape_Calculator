@@ -12,13 +12,13 @@
   border: 2px solid black;
   width: 95%;
   height: 95px;
+  position: relative;
   .heading {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     padding-left: 2.4%;
-    /*  font-family: 'Open Sans', sans-serif;
-    font-weight: normal;
-    padding-left: 2.4%; */
+    position: absolute;
+    bottom: 0;
   }
 }

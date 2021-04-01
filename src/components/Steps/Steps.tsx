@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import styles from './Steps.module.scss';
 import data from '../../data';
-import { ShapesInterface, initialValueType } from '../../interface';
+import { ShapesInterface, initialValueType} from '../../interface';
 import Button from '../Button';
 import { DifferentSteps, Shapes } from '../../enum';
 import Input from '../Input';
@@ -83,17 +83,22 @@ const Steps = () => {
     }
   };
 
-  const displayMessage = () => {
+  const getKeyAndValue = () => {
     const para = selectedShape.inputs;
     const params = Object.entries(para);
     const selected = params.find((ele) => ele[0] === selectedShape.shape);
     console.log(selected, 'sele');
+    return selected;
+  }
+
+  const displayMessage = () => {
+    const selected = getKeyAndValue();
     if (selected) {
       const val = Object.keys(selected[1]);
       const val1 = selected[1][val[0]];
       const val2 = selected[1][val[1]];
       const paramsLength = Object.keys(selected[1]).length;
-
+      console.log(selected,"selected");
       return (
         <div>
           You have calculated the area of a <span>{selectedShape.shape}</span>{' '}
@@ -106,6 +111,21 @@ const Steps = () => {
       );
     }
   };
+
+  const checkCondition = () => {
+    const selected = getKeyAndValue();
+    if (selected) {
+      const val = Object.keys(selected[1]);
+      const val1 = selected[1][val[0]];
+      const val2 = selected[1][val[1]];
+      const paramsLength = Object.keys(selected[1]).length;
+      return (
+        <>
+          {paramsLength > 1 ? val1 > 0 && val2 > 0? setSteps(3) : setSteps(2) : val1 > 0 ? setSteps(3) : setSteps(2) }
+        </>
+      );
+    }
+  }
 
   return (
     <div className={styles.Step1}>
@@ -140,16 +160,13 @@ const Steps = () => {
                 type="button"
                 title="Go to step 2"
                 onClick={() =>
-                  selectedShape.shape ? setSteps(2) : setSteps(1)
+                  selectedShape.shape? setSteps(2) : setSteps(1)
                 }
               />
               <p className={styles.or}>or</p>
               <p
                 className={styles.cancel}
-                onClick={() => {
-                  setSteps(1);
-                  setSelectedShape(initialValue);
-                }}>
+                onClick={startOver}>
                 Cancel
               </p>
             </div>
@@ -246,7 +263,7 @@ const Steps = () => {
               <Button
                 type="button"
                 title="Go to step 3"
-                onClick={() => setSteps(3)}
+                onClick={checkCondition}
               />
               <p className={styles.or}>or</p>
               <p className={styles.cancel} onClick={startOver}>
