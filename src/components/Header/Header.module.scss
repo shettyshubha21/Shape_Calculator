@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+.Header {
+  margin-top: 1%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.border {
+  box-sizing: border-box;
+  border: 2px solid black;
+  width: 95%;
+  height: 95px;
+  position: relative;
+  .heading {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-left: 2.4%;
+    position: absolute;
+    bottom: 0;
+  }
+}
