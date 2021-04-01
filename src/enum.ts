@@ -10,3 +10,10 @@ export enum Shapes {
   CIRCLE = 'circle',
   ELLIPSE = 'ellipse',
 }
+
+export enum Status {
+  IDLE = 'idle',
+  ACTIVE = 'active',
+  LOADING = 'loading',
+  RESOLVED = 'resolved',
+}

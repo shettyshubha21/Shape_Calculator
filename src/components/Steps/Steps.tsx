@@ -9,7 +9,7 @@ import Input from '../Input';
 
 const Steps = () => {
   const initialValue = {
-    shape: Shapes.RECTANGLE,
+    shape: undefined,
     inputs: {
       rectangle: { length: 0, breadth: 0 },
       circle: { diameter: 0 },
@@ -40,6 +40,7 @@ const Steps = () => {
     const inputValue = e.target.value;
     const shape = selectedShape.shape;
     const inputs = selectedShape.inputs;
+    if(shape !== undefined) {
     setSelectedShape({
       ...selectedShape,
       inputs: {
@@ -47,11 +48,12 @@ const Steps = () => {
         [shape]: { ...inputs[shape], [e.target.name]: inputValue },
       },
     });
+  }
   };
 
   const startOver = () => {
     setSteps(1);
-    setSelectedShape(initialValue);
+    setSelectedShape({...initialValue, shape:undefined});
   };
 
   const result = () => {

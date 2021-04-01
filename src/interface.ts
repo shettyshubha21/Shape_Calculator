@@ -57,6 +57,6 @@ export interface inputsType {
 }
 
 export interface initialValueType {
-  shape: Shapes;
+  shape: Shapes | undefined;
   inputs: inputsType;
 }
